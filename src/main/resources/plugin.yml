@@ -1,0 +1,10 @@
+name: Dungeon2
+version: '${project.version}'
+main: ossje.dungeon2.Dungeon2
+api-version: '1.21'
+author: Ossje
+description: generate a awsome dugeon
+commands:
+  gendungeon:
+    description: Generates a new procedural dungeon
+    usage: /<command> [name]
