@@ -3,6 +3,8 @@ package ossje.dungeon2.utils.dugeongen;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import ossje.dungeon2.database.dungeon.DungeonPlaces;
 
 import java.util.*;
 
@@ -16,10 +18,14 @@ public class DungeonManager {
 
     Room startroom;
 
+    private DungeonPlaces place;
+
+
     List<Room> roomList = new ArrayList<>();
     List<HallwayWrapper> connections = new ArrayList<>();
 
-    public void gendungeon(Location start, Location end, int maxRoom, int roomMinSize, int roomMaxSize){
+    public void gendungeon(Location start, Location end, int maxRoom, int roomMinSize, int roomMaxSize, DungeonPlaces place){
+        this.place = place;
         this.start = start;
         this.end = end;
         this.roomMinSize = roomMinSize;
@@ -265,6 +271,7 @@ public class DungeonManager {
         return false; // Block is not inside any room
     }
 
+
     private boolean roomOverlapping(Room a, Room b){
         int ax1 = a.getX();
         int ay1 = a.getZ();
@@ -276,6 +283,26 @@ public class DungeonManager {
         int by2 = b.getZ() + b.getLength()+1;
 
         return (ax1 < bx2 && ax2 > bx1 && ay1 < by2 && ay2 > by1);
+    }
+
+    public void EndGame() {
+        DungeonPlaceManager.getInstance().deactivateDungeon(place);
+
+        int minX = place.getMinX();
+        int maxX = place.getMaxX();
+        int minY = place.getMinY();
+        int maxY = minY + 10; // 10 blocks high
+        int minZ = place.getMinZ();
+        int maxZ = place.getMaxZ();
+
+        for (int x = minX; x <= maxX; x++) {
+            for (int y = minY; y <= maxY; y++) {
+                for (int z = minZ; z <= maxZ; z++) {
+                    Block block = start.getWorld().getBlockAt(x, y, z);
+                    block.setType(Material.AIR);
+                }
+            }
+        }
     }
 
 }

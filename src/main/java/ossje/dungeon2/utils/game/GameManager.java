@@ -2,10 +2,13 @@ package ossje.dungeon2.utils.game;
 
 import lombok.Getter;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import ossje.dungeon2.Dungeon2;
+import ossje.dungeon2.database.dungeon.DungeonPlaces;
 import ossje.dungeon2.utils.dugeongen.DungeonManager;
+import ossje.dungeon2.utils.dugeongen.DungeonPlaceManager;
 import ossje.dungeon2.utils.game.states.DeletingState;
 import ossje.dungeon2.utils.game.states.GeneratingState;
 import ossje.dungeon2.utils.game.states.StartingState;
@@ -20,6 +23,9 @@ public class GameManager {
     @Getter private final DungeonManager dungeonManager;
     @Getter private GameState currentState;
     @Getter private final Dungeon2 plugin;
+
+    private DungeonPlaces place;
+
 
     public GameManager(DungeonManager dungeonManager, Dungeon2 plugin, Player host) {
         this.plugin = plugin;
@@ -44,14 +50,18 @@ public class GameManager {
         if(players.isEmpty()) return;
 
         Player player = players.get(0).getBukkit();
+        place = DungeonPlaceManager.getInstance().getFirstFreeDungeon();
+        DungeonPlaceManager.getInstance().activateDungeon(place);
+
         dungeonManager.gendungeon(player.getLocation(),
-                new Location(player.getWorld(), player.getLocation().getX()+50, player.getLocation().getY(), player.getLocation().getZ()+50),
-                12, 7, 15);
+                new Location(player.getWorld(), place.getMinX(), place.getMinY(), place.getMaxZ()),
+                12, 7, 15, place);
 
         dungeonManager.buildRooms();
         dungeonManager.buildHallways();
         dungeonManager.clearhallways();
     }
+
 
 
     //player logic

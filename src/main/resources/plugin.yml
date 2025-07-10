@@ -8,3 +8,7 @@ commands:
   gendungeon:
     description: Generates a new procedural dungeon
     usage: /<command> [name]
+
+  dungeonarea:
+    description: Generates a new dungeon area
+    usage: /<command> [id]

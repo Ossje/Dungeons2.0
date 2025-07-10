@@ -24,13 +24,19 @@ public class PlayerManager {
         return dungeonPlayer;
     }
 
+    public DungeonPlayer addPlayer(DungeonPlayer player) {
+        onlinePlayers.add(player);
+
+        return player;
+    }
+
     public void removePlayer(DungeonPlayer dungeonPlayer) {
         onlinePlayers.remove(dungeonPlayer);
     }
 
     public  DungeonPlayer getPlayer(Player player) {
         return onlinePlayers.stream()
-                .filter(dungeonPlayer -> dungeonPlayer.getUuid().equals(player.getUniqueId()))
+                .filter(dungeonPlayer -> dungeonPlayer.getUuid().equals(player.getUniqueId().toString()))
                 .findFirst()
                 .orElse(null);
     }
