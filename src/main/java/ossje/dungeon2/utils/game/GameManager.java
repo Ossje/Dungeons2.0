@@ -68,7 +68,7 @@ public class GameManager {
 
     public DungeonPlayer addPlayer(DungeonPlayer dungeonPlayer) {
         if(this.players.contains(dungeonPlayer)) return null;
-        if(this.players.size() >= 4) return null; // Limit to 4 players
+        if(this.players.size() >= 4) return null;
         this.players.add(dungeonPlayer);
         dungeonPlayer.setGameManager(this);
 

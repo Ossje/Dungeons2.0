@@ -17,13 +17,12 @@ public class PlayerJoinListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        // Teleport to hub
         player.teleport(new Location(player.getWorld(), 28, -60, 73)); // TODO: Change this to config
         player.setHealth(20);
         player.setFoodLevel(20);
         player.setFlying(false);
         player.setFireTicks(0);
-        player.setGameMode(GameMode.CREATIVE); // Change to ADVENTURE in prod
+        player.setGameMode(GameMode.CREATIVE);
 
         try {
             Dao<DungeonPlayer, String> dao = Database.getPlayerDao();

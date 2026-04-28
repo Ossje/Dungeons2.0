@@ -128,6 +128,7 @@ public class DungeonManager {
         while (!unconnectedRooms.isEmpty()) {
             Room closestRoom = null;
             Room currentRoom = null;
+
             double closestDistance = Double.MAX_VALUE;
 
             for (Room connected : connectedRooms) {
@@ -160,7 +161,7 @@ public class DungeonManager {
     }
 
     private void createHallways(Room room1, Room room2) {
-        int hallwayHeight = 7;  // vertical height
+        int hallwayHeight = 7;
         int hallwayHalfWidth = 1;
 
         int x1 = room1.getX() + room1.getWidth() / 2;
@@ -168,16 +169,13 @@ public class DungeonManager {
         int x2 = room2.getX() + room2.getWidth() / 2;
         int z2 = room2.getZ() + room2.getLength() / 2;
 
-        // Build the X segment of the hallway
         buildHallwayLine(x1, z1, x2, z1, hallwayHeight, hallwayHalfWidth);
-
-        // Build the Z segment of the hallway
         buildHallwayLine(x2, z1, x2, z2, hallwayHeight, hallwayHalfWidth);
 
     }
 
     public void clearhallways() {
-        int hallwayHeight = 7;  // vertical height
+        int hallwayHeight = 7;
 
         connections.forEach((hallway) -> {
             System.out.println("HAllway cleared");
@@ -197,7 +195,7 @@ public class DungeonManager {
                         } else if (y == start.getBlockY() + hallwayHeight - 1) {
                             loc.getBlock().setType(Material.STONE_BRICKS);
                         } else {
-                            loc.getBlock().setType(Material.AIR); // Interior air
+                            loc.getBlock().setType(Material.AIR); // Inside
                         }
                     }
                 }
@@ -235,10 +233,7 @@ public class DungeonManager {
 
                     Location loc = new Location(start.getWorld(), x, y, z);
 
-                    if (isInsideAnyRoom(loc) && y > start.getBlockY()) {
-                        // Skip walls and air inside rooms, only build floor
-                        continue;
-                    }
+                    if (isInsideAnyRoom(loc) && y > start.getBlockY()) continue;
 
                     if (y == start.getBlockY()) {
                         loc.getBlock().setType(Material.STONE_BRICKS);  // floor
@@ -265,10 +260,10 @@ public class DungeonManager {
             int roomZ2 = room.getZ() + room.getLength() - 1;
 
             if (x >= roomX1 && x < roomX2 && z >= roomZ1 && z < roomZ2) {
-                return true; // Block is inside the interior of this room
+                return true;
             }
         }
-        return false; // Block is not inside any room
+        return false;
     }
 
 
@@ -291,7 +286,7 @@ public class DungeonManager {
         int minX = place.getMinX();
         int maxX = place.getMaxX();
         int minY = place.getMinY();
-        int maxY = minY + 10; // 10 blocks high
+        int maxY = minY + 10;
         int minZ = place.getMinZ();
         int maxZ = place.getMaxZ();
 
